@@ -1,0 +1,285 @@
+2025-04-10 12:04:58,711 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:04:58,713 - INFO - Current UTC time: 2025-04-10 06:34:58
+2025-04-10 12:04:58,713 - INFO - User: Mithileshvinayak
+2025-04-10 12:04:58,713 - INFO - Entering main function
+2025-04-10 12:04:58,718 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:04:58,718 - INFO - Checking for input data...
+2025-04-10 12:04:58,719 - INFO - Running ML pipeline...
+2025-04-10 12:04:58,719 - INFO - Starting ML pipeline...
+2025-04-10 12:04:58,762 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:04:58,763 - INFO - Engineering features...
+2025-04-10 12:04:58,862 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:04:58,862 - INFO - Training XGBoost model...
+2025-04-10 12:05:01,679 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:05:01,679 - INFO - train_rmse: 0.1023
+2025-04-10 12:05:01,679 - INFO - test_rmse: 0.3541
+2025-04-10 12:05:01,679 - INFO - train_mae: 0.0804
+2025-04-10 12:05:01,679 - INFO - test_mae: 0.1856
+2025-04-10 12:05:01,679 - INFO - train_r2: 0.9999
+2025-04-10 12:05:01,679 - INFO - test_r2: 0.9984
+2025-04-10 12:05:01,711 - INFO - Creating visualizations...
+2025-04-10 12:05:03,295 - INFO - Pipeline completed in 4.58 seconds
+2025-04-10 12:05:03,321 - INFO - Performing real-time prediction test...
+2025-04-10 12:05:03,322 - ERROR - Unexpected error in pipeline: 'AQIPredictionPipeline' object has no attribute 'setup_cause_analyzer'
+Traceback (most recent call last):
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 376, in main
+    causes = pipeline.analyze_pollution_cause(sample_data)
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 109, in analyze_pollution_cause
+    self.setup_cause_analyzer()
+AttributeError: 'AQIPredictionPipeline' object has no attribute 'setup_cause_analyzer'
+2025-04-10 12:10:35,388 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:10:35,390 - INFO - Current UTC time: 2025-04-10 06:40:35
+2025-04-10 12:10:35,391 - INFO - User: Mithileshvinayak
+2025-04-10 12:10:35,394 - INFO - Entering main function
+2025-04-10 12:10:35,395 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:10:35,395 - INFO - Checking for input data...
+2025-04-10 12:10:35,396 - INFO - Running ML pipeline...
+2025-04-10 12:10:35,396 - INFO - Starting ML pipeline...
+2025-04-10 12:10:35,435 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:10:35,435 - INFO - Engineering features...
+2025-04-10 12:10:35,534 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:10:35,542 - INFO - Training XGBoost model...
+2025-04-10 12:10:38,259 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:10:38,259 - INFO - train_rmse: 0.1023
+2025-04-10 12:10:38,259 - INFO - test_rmse: 0.3541
+2025-04-10 12:10:38,259 - INFO - train_mae: 0.0804
+2025-04-10 12:10:38,270 - INFO - test_mae: 0.1856
+2025-04-10 12:10:38,270 - INFO - train_r2: 0.9999
+2025-04-10 12:10:38,270 - INFO - test_r2: 0.9984
+2025-04-10 12:10:38,291 - INFO - Creating visualizations...
+2025-04-10 12:10:39,813 - INFO - Pipeline completed in 4.42 seconds
+2025-04-10 12:10:39,854 - INFO - Performing real-time prediction test...
+2025-04-10 12:10:39,856 - INFO - Setting up cause analyzer...
+2025-04-10 12:10:39,857 - INFO - Analyzing pollution causes...
+2025-04-10 12:10:39,859 - INFO - Primary cause identified: traffic (64.86%)
+2025-04-10 12:10:39,882 - INFO - Pipeline execution completed successfully
+2025-04-10 12:16:16,710 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:16:16,715 - INFO - Current UTC time: 2025-04-10 06:46:16
+2025-04-10 12:16:16,716 - INFO - User: Mithileshvinayak
+2025-04-10 12:16:16,719 - INFO - Entering main function
+2025-04-10 12:16:16,720 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:16:16,721 - INFO - Checking for input data...
+2025-04-10 12:16:16,722 - INFO - Running ML pipeline...
+2025-04-10 12:16:16,723 - INFO - Starting ML pipeline...
+2025-04-10 12:16:16,779 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:16:16,786 - INFO - Engineering features...
+2025-04-10 12:16:16,908 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:16:16,915 - INFO - Training XGBoost model...
+2025-04-10 12:16:19,615 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:16:19,615 - INFO - train_rmse: 0.1023
+2025-04-10 12:16:19,615 - INFO - test_rmse: 0.3541
+2025-04-10 12:16:19,615 - INFO - train_mae: 0.0804
+2025-04-10 12:16:19,615 - INFO - test_mae: 0.1856
+2025-04-10 12:16:19,615 - INFO - train_r2: 0.9999
+2025-04-10 12:16:19,615 - INFO - test_r2: 0.9984
+2025-04-10 12:16:19,650 - INFO - Creating visualizations...
+2025-04-10 12:16:21,166 - INFO - Pipeline completed in 4.44 seconds
+2025-04-10 12:16:21,181 - ERROR - Unexpected error in pipeline: local variable 'sample_data' referenced before assignment
+Traceback (most recent call last):
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 443, in main
+    causes = pipeline.analyze_pollution_cause(sample_data)
+UnboundLocalError: local variable 'sample_data' referenced before assignment
+2025-04-10 12:18:27,638 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:18:27,639 - INFO - Current UTC time: 2025-04-10 06:48:27
+2025-04-10 12:18:27,640 - INFO - User: Mithileshvinayak
+2025-04-10 12:18:27,644 - INFO - Entering main function
+2025-04-10 12:18:27,645 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:18:27,646 - INFO - Checking for input data...
+2025-04-10 12:18:27,646 - INFO - Running ML pipeline...
+2025-04-10 12:18:27,647 - INFO - Starting ML pipeline...
+2025-04-10 12:18:27,682 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:18:27,689 - INFO - Engineering features...
+2025-04-10 12:18:27,791 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:18:27,792 - INFO - Training XGBoost model...
+2025-04-10 12:18:30,481 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:18:30,481 - INFO - train_rmse: 0.1023
+2025-04-10 12:18:30,481 - INFO - test_rmse: 0.3541
+2025-04-10 12:18:30,481 - INFO - train_mae: 0.0804
+2025-04-10 12:18:30,481 - INFO - test_mae: 0.1856
+2025-04-10 12:18:30,481 - INFO - train_r2: 0.9999
+2025-04-10 12:18:30,481 - INFO - test_r2: 0.9984
+2025-04-10 12:18:30,516 - INFO - Creating visualizations...
+2025-04-10 12:18:32,167 - INFO - Pipeline completed in 4.52 seconds
+2025-04-10 12:18:32,186 - INFO - Performing real-time prediction test...
+2025-04-10 12:18:32,187 - INFO - Setting up cause analyzer...
+2025-04-10 12:18:32,187 - INFO - Analyzing pollution causes...
+2025-04-10 12:18:32,187 - INFO - Primary cause identified: traffic (48.00%)
+2025-04-10 12:18:32,194 - INFO - Pipeline execution completed successfully
+2025-04-10 12:25:53,556 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:25:53,558 - INFO - Current UTC time: 2025-04-10 06:55:53
+2025-04-10 12:25:53,559 - INFO - User: Mithileshvinayak
+2025-04-10 12:25:53,561 - INFO - Entering main function
+2025-04-10 12:25:53,562 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:25:53,562 - INFO - Checking for input data...
+2025-04-10 12:25:53,562 - INFO - Setting up cause analyzer...
+2025-04-10 12:25:53,563 - INFO - Analyzing pollution causes...
+2025-04-10 12:25:53,564 - INFO - Primary cause identified: traffic (48.00%)
+2025-04-10 12:25:53,565 - ERROR - Unexpected error: 'AQIPredictionPipeline' object has no attribute 'create_visualizations'
+Traceback (most recent call last):
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 503, in main
+    pipeline.create_visualizations(df_engineered, feature_importance, metrics, causes)
+AttributeError: 'AQIPredictionPipeline' object has no attribute 'create_visualizations'
+2025-04-10 12:27:25,885 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:27:25,887 - INFO - Current UTC time: 2025-04-10 06:57:25
+2025-04-10 12:27:25,888 - INFO - User: Mithileshvinayak
+2025-04-10 12:27:25,891 - INFO - Entering main function
+2025-04-10 12:27:25,892 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:27:25,892 - INFO - Checking for input data...
+2025-04-10 12:27:25,892 - INFO - Setting up cause analyzer...
+2025-04-10 12:27:25,893 - INFO - Analyzing pollution causes...
+2025-04-10 12:27:25,894 - INFO - Primary cause identified: traffic (48.00%)
+2025-04-10 12:27:25,894 - ERROR - Unexpected error: name 'df_engineered' is not defined
+Traceback (most recent call last):
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 503, in main
+    pipeline.create_visualizations(df_engineered, feature_importance, metrics, causes)
+NameError: name 'df_engineered' is not defined
+2025-04-10 12:28:55,332 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:28:55,333 - INFO - Current UTC time: 2025-04-10 06:58:55
+2025-04-10 12:28:55,334 - INFO - User: Mithileshvinayak
+2025-04-10 12:28:55,334 - INFO - Entering main function
+2025-04-10 12:28:55,336 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:28:55,336 - INFO - Checking for input data...
+2025-04-10 12:28:55,337 - INFO - Running ML pipeline...
+2025-04-10 12:28:55,337 - ERROR - Unexpected error: 'AQIPredictionPipeline' object has no attribute 'run_pipeline'
+Traceback (most recent call last):
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 486, in main
+    model, scaler, feature_importance, metrics = pipeline.run_pipeline()
+AttributeError: 'AQIPredictionPipeline' object has no attribute 'run_pipeline'
+2025-04-10 12:31:54,520 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:31:54,522 - INFO - Current UTC time: 2025-04-10 07:01:54
+2025-04-10 12:31:54,523 - INFO - User: Mithileshvinayak
+2025-04-10 12:31:54,523 - INFO - Entering main function
+2025-04-10 12:31:54,527 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:31:54,527 - INFO - Checking for input data...
+2025-04-10 12:31:54,528 - INFO - Running ML pipeline...
+2025-04-10 12:31:54,528 - INFO - Starting ML pipeline...
+2025-04-10 12:31:54,587 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:31:54,587 - INFO - Engineering features...
+2025-04-10 12:31:54,716 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:31:54,725 - INFO - Training XGBoost model...
+2025-04-10 12:31:57,467 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:31:57,467 - INFO - train_rmse: 0.1023
+2025-04-10 12:31:57,467 - INFO - test_rmse: 0.3541
+2025-04-10 12:31:57,478 - INFO - train_mae: 0.0804
+2025-04-10 12:31:57,478 - INFO - test_mae: 0.1856
+2025-04-10 12:31:57,479 - INFO - train_r2: 0.9999
+2025-04-10 12:31:57,479 - INFO - test_r2: 0.9984
+2025-04-10 12:31:57,502 - ERROR - Error in pipeline: 'AQIPredictionPipeline' object has no attribute 'save_monitoring_data'
+2025-04-10 12:31:57,502 - ERROR - Unexpected error: 'AQIPredictionPipeline' object has no attribute 'save_monitoring_data'
+Traceback (most recent call last):
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 507, in main
+    model, scaler, feature_importance, metrics = pipeline.run_pipeline()
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 437, in run_pipeline
+    self.save_monitoring_data(monitoring_data)
+AttributeError: 'AQIPredictionPipeline' object has no attribute 'save_monitoring_data'
+2025-04-10 12:33:21,979 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:33:21,979 - INFO - Current UTC time: 2025-04-10 07:03:21
+2025-04-10 12:33:21,979 - INFO - User: Mithileshvinayak
+2025-04-10 12:33:21,979 - INFO - Entering main function
+2025-04-10 12:33:21,980 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:33:21,981 - INFO - Checking for input data...
+2025-04-10 12:33:21,981 - INFO - Running ML pipeline...
+2025-04-10 12:33:21,981 - INFO - Starting ML pipeline...
+2025-04-10 12:33:22,036 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:33:22,036 - INFO - Engineering features...
+2025-04-10 12:33:22,192 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:33:22,196 - INFO - Training XGBoost model...
+2025-04-10 12:33:24,800 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:33:24,800 - INFO - train_rmse: 0.1023
+2025-04-10 12:33:24,800 - INFO - test_rmse: 0.3541
+2025-04-10 12:33:24,800 - INFO - train_mae: 0.0804
+2025-04-10 12:33:24,811 - INFO - test_mae: 0.1856
+2025-04-10 12:33:24,812 - INFO - train_r2: 0.9999
+2025-04-10 12:33:24,812 - INFO - test_r2: 0.9984
+2025-04-10 12:33:24,844 - INFO - Monitoring data saved successfully
+2025-04-10 12:33:25,357 - INFO - Pipeline completed in 2.85 seconds
+2025-04-10 12:33:25,368 - INFO - Setting up cause analyzer...
+2025-04-10 12:33:25,369 - INFO - Analyzing pollution causes...
+2025-04-10 12:33:25,369 - INFO - Primary cause identified: traffic (48.00%)
+2025-04-10 12:33:25,544 - INFO - Creating visualizations...
+2025-04-10 12:33:25,549 - ERROR - Unexpected error: 'seaborn' is not a valid package style, path of style file, URL of style file, or library style name (library styles are listed in `style.available`)
+Traceback (most recent call last):
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python310\lib\site-packages\matplotlib\style\core.py", line 137, in use
+    style = _rc_params_in_file(style)
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python310\lib\site-packages\matplotlib\__init__.py", line 879, in _rc_params_in_file
+    with _open_file_or_url(fname) as fd:
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python310\lib\contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python310\lib\site-packages\matplotlib\__init__.py", line 856, in _open_file_or_url
+    with open(fname, encoding='utf-8') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'seaborn'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 547, in main
+    pipeline.create_visualizations(df_engineered, feature_importance, metrics, causes)
+  File "C:\smart-aqi-guardian\data_pipeline\rapid_ml_pipeline.py", line 344, in create_visualizations
+    plt.style.use('seaborn')
+  File "C:\Users\DELL\AppData\Local\Programs\Python\Python310\lib\site-packages\matplotlib\style\core.py", line 139, in use
+    raise OSError(
+OSError: 'seaborn' is not a valid package style, path of style file, URL of style file, or library style name (library styles are listed in `style.available`)
+2025-04-10 12:36:12,590 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:36:12,592 - INFO - Current UTC time: 2025-04-10 07:06:12
+2025-04-10 12:36:12,592 - INFO - User: Mithileshvinayak
+2025-04-10 12:36:12,592 - INFO - Entering main function
+2025-04-10 12:36:12,593 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:36:12,593 - INFO - Checking for input data...
+2025-04-10 12:36:12,594 - INFO - Running ML pipeline...
+2025-04-10 12:36:12,594 - INFO - Starting ML pipeline...
+2025-04-10 12:36:12,630 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:36:12,630 - INFO - Engineering features...
+2025-04-10 12:36:12,759 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:36:12,774 - INFO - Training XGBoost model...
+2025-04-10 12:36:15,424 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:36:15,424 - INFO - train_rmse: 0.1023
+2025-04-10 12:36:15,424 - INFO - test_rmse: 0.3541
+2025-04-10 12:36:15,424 - INFO - train_mae: 0.0804
+2025-04-10 12:36:15,435 - INFO - test_mae: 0.1856
+2025-04-10 12:36:15,435 - INFO - train_r2: 0.9999
+2025-04-10 12:36:15,436 - INFO - test_r2: 0.9984
+2025-04-10 12:36:15,456 - INFO - Monitoring data saved successfully
+2025-04-10 12:36:16,038 - INFO - Pipeline completed in 2.86 seconds
+2025-04-10 12:36:16,055 - INFO - Setting up cause analyzer...
+2025-04-10 12:36:16,057 - INFO - Analyzing pollution causes...
+2025-04-10 12:36:16,058 - INFO - Primary cause identified: traffic (48.00%)
+2025-04-10 12:36:16,210 - INFO - Creating visualizations...
+2025-04-10 12:36:18,371 - INFO - Visualizations created successfully
+2025-04-10 12:36:18,384 - INFO - Monitoring data saved successfully
+2025-04-10 12:36:18,384 - INFO - Pipeline execution completed successfully
+2025-04-10 12:48:58,999 - INFO - Starting Smart AQI Guardian Pipeline...
+2025-04-10 12:48:59,000 - INFO - Current UTC time: 2025-04-10 07:18:59
+2025-04-10 12:48:59,000 - INFO - User: Mithileshvinayak
+2025-04-10 12:48:59,000 - INFO - Entering main function
+2025-04-10 12:48:59,000 - INFO - AQI Prediction Pipeline initialized
+2025-04-10 12:48:59,001 - INFO - Checking for input data...
+2025-04-10 12:48:59,001 - INFO - Running ML pipeline...
+2025-04-10 12:48:59,002 - INFO - Starting ML pipeline...
+2025-04-10 12:48:59,046 - INFO - Loaded data with shape: (17544, 15)
+2025-04-10 12:48:59,047 - INFO - Engineering features...
+2025-04-10 12:48:59,160 - INFO - Engineered features. New shape: (17544, 34)
+2025-04-10 12:48:59,167 - INFO - Training XGBoost model...
+2025-04-10 12:49:02,006 - INFO - 
+Model Performance Metrics:
+2025-04-10 12:49:02,006 - INFO - train_rmse: 0.1023
+2025-04-10 12:49:02,006 - INFO - test_rmse: 0.3541
+2025-04-10 12:49:02,006 - INFO - train_mae: 0.0804
+2025-04-10 12:49:02,006 - INFO - test_mae: 0.1856
+2025-04-10 12:49:02,006 - INFO - train_r2: 0.9999
+2025-04-10 12:49:02,006 - INFO - test_r2: 0.9984
+2025-04-10 12:49:02,048 - INFO - Monitoring data saved successfully
+2025-04-10 12:49:02,656 - INFO - Pipeline completed in 3.05 seconds
+2025-04-10 12:49:02,676 - INFO - Setting up cause analyzer...
+2025-04-10 12:49:02,683 - INFO - Analyzing pollution causes...
+2025-04-10 12:49:02,683 - INFO - Primary cause identified: traffic (48.00%)
+2025-04-10 12:49:02,898 - INFO - Creating visualizations...
+2025-04-10 12:49:05,294 - INFO - Visualizations created successfully
+2025-04-10 12:49:05,334 - INFO - Monitoring data saved successfully
+2025-04-10 12:49:05,334 - INFO - Pipeline execution completed successfully
