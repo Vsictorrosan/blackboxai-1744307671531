@@ -9,6 +9,264 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let currentData = {
+            weather: null,
+            airQuality: null,
+            traffic: null,
+            industrial: null
+        };
+
+        async function fetchAPIData() {
+            const city = document.getElementById('city').value;
+            const lat = document.getElementById('lat').value;
+            const lon = document.getElementById('lon').value;
+
+            try {
+                // Fetch aggregated data
+                const response = await fetch(`http://localhost:5000/api/aggregated/${encodeURIComponent(city)}?lat=${lat}&lon=${lon}`);
+                const data = await response.json();
+                
+                currentData = data;
+                
+                // Update UI with real-time data
+                displayRealTimeData(data);
+                
+                return data;
+            } catch (error) {
+                console.error('Error fetching API data:', error);
+                return null;
+            }
+        }
+
+        function updateDataSourceStatus(sourceId, isActive, message = '') {
+            const element = document.getElementById(sourceId);
+            if (element) {
+                const statusText = element.querySelector('p');
+                if (isActive) {
+                    element.classList.remove('from-blue-900/50', 'to-purple-900/50');
+                    element.classList.add('from-green-500/30', 'to-green-700/30');
+                    statusText.textContent = message || 'Active';
+                    statusText.classList.remove('text-white/70');
+                    statusText.classList.add('text-green-400');
+                } else {
+                    element.classList.remove('from-green-500/30', 'to-green-700/30');
+                    element.classList.add('from-red-500/30', 'to-red-700/30');
+                    statusText.textContent = message || 'Error';
+                    statusText.classList.remove('text-white/70');
+                    statusText.classList.add('text-red-400');
+                }
+            }
+        }
+
+        function displayRealTimeData(data) {
+            const weatherData = data.weather?.openweather?.main || {};
+            const airData = data.air_quality?.waqi?.data || {};
+            const trafficData = data.traffic?.tomtom || {};
+            const industrialData = data.industrial?.industrial_production || {};
+            
+            // Update weather status and display
+            if (weatherData.temp) {
+                document.getElementById('temperature').placeholder = `Current: ${weatherData.temp}°C`;
+                updateDataSourceStatus('weather_status', true, `${weatherData.temp}°C`);
+            } else {
+                updateDataSourceStatus('weather_status', false);
+            }
+            if (weatherData.humidity) {
+                document.getElementById('humidity').placeholder = `Current: ${weatherData.humidity}%`;
+            }
+            
+            // Update air quality status and display
+            const iaqi = airData.iaqi || {};
+            if (iaqi.pm25?.v) {
+                document.getElementById('pm25').placeholder = `Current: ${iaqi.pm25.v} μg/m³`;
+                updateDataSourceStatus('aqi_status', true, `PM2.5: ${iaqi.pm25.v}`);
+            } else {
+                updateDataSourceStatus('aqi_status', false);
+            }
+            if (iaqi.pm10?.v) {
+                document.getElementById('pm10').placeholder = `Current: ${iaqi.pm10.v} μg/m³`;
+            }
+
+            // Update traffic status
+            if (trafficData.flowSegmentData) {
+                updateDataSourceStatus('traffic_status', true, 'Data Available');
+            } else {
+                updateDataSourceStatus('traffic_status', false);
+            }
+
+            // Update industrial status
+            if (industrialData.value) {
+                updateDataSourceStatus('industrial_status', true, `Index: ${industrialData.value}`);
+            } else {
+                updateDataSourceStatus('industrial_status', false);
+            }
+        }
+
+        async function makePrediction() {
+            try {
+                // First fetch latest API data
+                await fetchAPIData();
+                
+                // Prepare features object with location
+                const features = {
+                    city: document.getElementById('city').value,
+                    lat: parseFloat(document.getElementById('lat').value),
+                    lon: parseFloat(document.getElementById('lon').value),
+                };
+
+                // Add optional overrides if provided
+                const overrideFields = ['pm25', 'pm10', 'temperature', 'humidity'];
+                overrideFields.forEach(field => {
+                    const value = document.getElementById(field).value;
+                    if (value !== '') {
+                        features[field] = parseFloat(value);
+                    }
+                });
+
+                console.log('Sending prediction request with features:', features);
+
+                const response = await fetch('http://localhost:5000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(features),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Received prediction result:', result);
+                displayPrediction(result);
+
+                // Update data source statuses
+                if (result.data_sources) {
+                    Object.entries(result.data_sources).forEach(([source, active]) => {
+                        const statusId = source + '_status';
+                        updateDataSourceStatus(statusId, active);
+                    });
+                }
+            } catch (error) {
+                console.error('Error making prediction:', error);
+                // Show error in UI
+                document.getElementById('predicted_aqi').innerText = 'Error';
+                document.getElementById('risk_level').innerText = 'Failed';
+                document.getElementById('confidence').innerText = '0%';
+            }
+        }
+
+        function displayPrediction(result) {
+            // Update prediction values
+            document.getElementById('predicted_aqi').innerText = result.aqi.toFixed(1);
+            document.getElementById('risk_level').innerText = result.risk_level || 'Calculating...';
+            
+            // Calculate and display confidence
+            let confidenceScore = result.confidence;
+            if (result.data_sources) {
+                const activeSourcesCount = Object.values(result.data_sources).filter(Boolean).length;
+                confidenceScore = Math.min(95, confidenceScore + (activeSourcesCount * 5));
+            }
+            document.getElementById('confidence').innerText = confidenceScore.toFixed(1) + '%';
+            
+            // Update confidence color based on score
+            const confidenceElement = document.getElementById('confidence');
+            if (confidenceScore >= 80) {
+                confidenceElement.className = 'text-4xl font-bold text-green-400';
+            } else if (confidenceScore >= 60) {
+                confidenceElement.className = 'text-4xl font-bold text-yellow-400';
+            } else {
+                confidenceElement.className = 'text-4xl font-bold text-red-400';
+            }
+            
+            // Update chart with new prediction data
+            updateChart(result.aqi);
+            
+            // Show success message
+            const sources = result.data_sources || {};
+            const activeSourcesCount = Object.values(sources).filter(Boolean).length;
+            const totalSources = Object.keys(sources).length;
+            
+            // Update the AI banner with prediction details
+            const banner = document.querySelector('.particle-container p.text-xl');
+            if (banner) {
+                banner.innerHTML = `
+                    <i class="fas fa-brain mr-2"></i> 
+                    Prediction made using ${activeSourcesCount}/${totalSources} data sources 
+                    <span class="text-${confidenceScore >= 80 ? 'green' : confidenceScore >= 60 ? 'yellow' : 'red'}-400">
+                        (${confidenceScore.toFixed(1)}% confidence)
+                    </span>
+                `;
+            }
+        }
+
+        function updateChart(newAQI) {
+            const ctx = document.getElementById('predictionChart').getContext('2d');
+            const currentData = predictionChart.data.datasets[0].data;
+            currentData.shift(); // Remove first element
+            currentData.push(newAQI); // Add new prediction
+            predictionChart.update();
+        }
+
+        let predictionChart;
+
+        // Initialize prediction chart
+        window.onload = function() {
+            const ctx = document.getElementById('predictionChart').getContext('2d');
+            predictionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Now', '+2h', '+4h', '+6h', '+8h', '+10h', '+12h', '+14h', '+16h', '+18h', '+20h', '+22h', '+24h'],
+                    datasets: [{
+                        label: 'Predicted AQI',
+                        data: [235, 220, 200, 180, 160, 150, 140, 130, 120, 110, 100, 90, 85],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#3b82f6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: 'rgba(255, 255, 255, 0.7)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 </head>
 <body class="command-center-bg min-h-screen text-white">
     <!-- Header -->
@@ -45,6 +303,95 @@
             </div>
         </section>
 
+        <!-- Input Parameters -->
+        <section class="command-station p-6 my-4">
+            <h2 class="text-xl font-bold mb-4">Input Parameters</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Location Parameters -->
+                <div class="space-y-2">
+                    <label class="block text-white/70">City</label>
+                    <input type="text" id="city" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-white" placeholder="Enter city name" value="Delhi">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-white/70">Latitude</label>
+                    <input type="number" id="lat" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-white" placeholder="Enter latitude" value="28.6139" step="0.0001">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-white/70">Longitude</label>
+                    <input type="number" id="lon" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-white" placeholder="Enter longitude" value="77.2090" step="0.0001">
+                </div>
+
+                <!-- Optional Override Parameters -->
+                <div class="space-y-2">
+                    <label class="block text-white/70">PM2.5 Override (μg/m³)</label>
+                    <input type="number" id="pm25" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-white" placeholder="Leave empty for API data">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-white/70">PM10 Override (μg/m³)</label>
+                    <input type="number" id="pm10" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-white" placeholder="Leave empty for API data">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-white/70">Temperature Override (°C)</label>
+                    <input type="number" id="temperature" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-white" placeholder="Leave empty for API data">
+                </div>
+                <div class="space-y-2">
+                    <label class="block text-white/70">Humidity Override (%)</label>
+                    <input type="number" id="humidity" class="w-full bg-white/10 border border-white/20 rounded px-3 py-2 text-white" placeholder="Leave empty for API data">
+                </div>
+            </div>
+            <div class="mt-6">
+                <button onclick="makePrediction()" class="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded-lg transition-colors">
+                    Make Prediction
+                </button>
+            </div>
+        </section>
+
+        <!-- Data Sources -->
+        <section class="command-station p-6 my-4">
+            <h2 class="text-xl font-bold mb-4">Data Sources Status</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div id="weather_status" class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-4 rounded-lg text-center">
+                    <i class="fas fa-cloud text-2xl mb-2"></i>
+                    <h3 class="font-bold">Weather API</h3>
+                    <p class="text-white/70">Waiting...</p>
+                </div>
+                <div id="aqi_status" class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-4 rounded-lg text-center">
+                    <i class="fas fa-wind text-2xl mb-2"></i>
+                    <h3 class="font-bold">AQI API</h3>
+                    <p class="text-white/70">Waiting...</p>
+                </div>
+                <div id="traffic_status" class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-4 rounded-lg text-center">
+                    <i class="fas fa-car text-2xl mb-2"></i>
+                    <h3 class="font-bold">Traffic API</h3>
+                    <p class="text-white/70">Waiting...</p>
+                </div>
+                <div id="industrial_status" class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-4 rounded-lg text-center">
+                    <i class="fas fa-industry text-2xl mb-2"></i>
+                    <h3 class="font-bold">Industrial API</h3>
+                    <p class="text-white/70">Waiting...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prediction Results -->
+        <section class="command-station p-6 my-4">
+            <h2 class="text-xl font-bold mb-4">Prediction Results</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-4 rounded-lg text-center">
+                    <h3 class="font-bold mb-2">Predicted AQI</h3>
+                    <p id="predicted_aqi" class="text-4xl font-bold">--</p>
+                </div>
+                <div class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-4 rounded-lg text-center">
+                    <h3 class="font-bold mb-2">Risk Level</h3>
+                    <p id="risk_level" class="text-4xl font-bold">--</p>
+                </div>
+                <div class="bg-gradient-to-br from-blue-900/50 to-purple-900/50 p-4 rounded-lg text-center">
+                    <h3 class="font-bold mb-2">Confidence</h3>
+                    <p id="confidence" class="text-4xl font-bold">--</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Prediction Chart -->
         <section class="command-station p-6 my-4">
             <h2 class="text-xl font-bold mb-4">24-Hour AQI Forecast</h2>
@@ -59,52 +406,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Prediction Insights -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-4">
-            <!-- Pattern Analysis -->
-            <section class="command-station p-6">
-                <h3 class="text-xl font-bold mb-4">Pattern Analysis</h3>
-                <div class="space-y-4">
-                    <div class="bg-gradient-to-r from-green-500/20 to-blue-500/20 p-4 rounded-lg">
-                        <p class="font-bold">Peak Hours</p>
-                        <p class="text-white/70">15:00 - 18:00 (180 AQI)</p>
-                    </div>
-                    <div class="bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-4 rounded-lg">
-                        <p class="font-bold">Clean Air Window</p>
-                        <p class="text-white/70">23:00 - 05:00 (95 AQI)</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contributing Factors -->
-            <section class="command-station p-6">
-                <h3 class="text-xl font-bold mb-4">Contributing Factors</h3>
-                <div class="space-y-4">
-                    <div class="flex items-center">
-                        <div class="w-1/3">Traffic Density</div>
-                        <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-blue-500 rounded-full" style="width: 65%"></div>
-                        </div>
-                        <div class="w-12 text-right">65%</div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-1/3">Industrial Activity</div>
-                        <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-purple-500 rounded-full" style="width: 45%"></div>
-                        </div>
-                        <div class="w-12 text-right">45%</div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-1/3">Weather Impact</div>
-                        <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-full bg-green-500 rounded-full" style="width: 80%"></div>
-                        </div>
-                        <div class="w-12 text-right">80%</div>
-                    </div>
-                </div>
-            </section>
-        </div>
     </main>
 
     <footer class="bg-[#1a1f35]/80 backdrop-blur-md border-t border-white/10 mt-8">
@@ -114,58 +415,6 @@
     </footer>
 
     <script>
-        // Initialize prediction chart
-        const ctx = document.getElementById('predictionChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Now', '+2h', '+4h', '+6h', '+8h', '+10h', '+12h', '+14h', '+16h', '+18h', '+20h', '+22h', '+24h'],
-                datasets: [{
-                    label: 'Predicted AQI',
-                    data: [235, 220, 200, 180, 160, 150, 140, 130, 120, 110, 100, 90, 85],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#3b82f6',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#3b82f6'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        labels: {
-                            color: 'rgba(255, 255, 255, 0.7)'
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        },
-                        ticks: {
-                            color: 'rgba(255, 255, 255, 0.7)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        },
-                        ticks: {
-                            color: 'rgba(255, 255, 255, 0.7)'
-                        }
-                    }
-                }
-            }
-        });
-
         // Add particles
         function createParticles() {
             const container = document.querySelector('.particle-container');
@@ -180,12 +429,35 @@
 
         createParticles();
 
-        // Update timestamp
+        // Auto-refresh data and update timestamp
+        setInterval(fetchAPIData, 300000); // Refresh data every 5 minutes
+
         setInterval(() => {
             const now = new Date();
-            document.querySelector('.status-active').textContent = 
-                `Prediction Engine: Active | ${now.toLocaleTimeString()}`;
+            const lastRefreshElement = document.querySelector('.status-active');
+            if (lastRefreshElement) {
+                lastRefreshElement.innerHTML = `
+                    <span class="text-green-400">●</span> 
+                    Prediction Engine Active | Last Update: ${now.toLocaleTimeString()}
+                `;
+            }
         }, 1000);
+
+        // Add keyboard shortcut for manual refresh (Ctrl/Cmd + R)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                fetchAPIData().then(() => {
+                    const banner = document.querySelector('.particle-container p.text-xl');
+                    if (banner) {
+                        banner.innerHTML = `
+                            <i class="fas fa-sync-alt mr-2"></i> 
+                            Data refreshed at ${new Date().toLocaleTimeString()}
+                        `;
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
