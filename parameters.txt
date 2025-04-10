@@ -1,0 +1,28 @@
+Air Quality Parameters:
+Python
+air_quality_features = [
+    'pm25',          # PM2.5 concentration
+    'pm10',          # PM10 concentration
+    'no2',           # Nitrogen dioxide
+    'so2',           # Sulfur dioxide
+    'co',            # Carbon monoxide
+    'o3'             # Ozone
+]
+Weather Parameters:
+Python
+weather_features = [
+    'temperature',   # Temperature in Celsius
+    'humidity',      # Relative humidity %
+    'wind_speed',    # Wind speed in m/s
+    'pressure'       # Atmospheric pressure
+]
+Location and Time:
+Python
+metadata_features = [
+    'timestamp',     # Date and time of measurement
+    'location_id',   # Station identifier
+    'traffic_level'  # Traffic intensity level
+]
+Target Variable:
+Python
+target = ['aqi']    # Air Quality Index
