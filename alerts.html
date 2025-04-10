@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts - Smart AQI Guardian</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="command-center-bg min-h-screen text-white">
+    <!-- Header -->
+    <header class="bg-[#1a1f35]/80 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto p-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold">🌟 Smart AQI Guardian</h1>
+                    <p class="text-white/70">Alert Management System</p>
+                </div>
+                <div class="status-active px-6 py-2 bg-green-500/20 rounded-full">
+                    Alert System: Active
+                </div>
+            </div>
+            <nav class="mt-4 flex space-x-6">
+                <a href="index.html" class="text-white/70 hover:text-blue-400 transition-colors">Command Bridge</a>
+                <a href="prediction.html" class="text-white/70 hover:text-blue-400 transition-colors">Predictions</a>
+                <a href="historical.html" class="text-white/70 hover:text-blue-400 transition-colors">Historical Data</a>
+                <a href="alerts.html" class="text-white hover:text-blue-400 transition-colors">Alerts</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4">
+        <!-- Active Alerts -->
+        <section class="command-station p-6 my-4">
+            <h2 class="text-xl font-bold mb-4"><i class="fas fa-exclamation-triangle mr-2 text-yellow-400"></i>Active Alerts</h2>
+            <div class="space-y-4">
+                <!-- High Priority Alert -->
+                <div class="bg-red-900/30 border border-red-500/30 p-4 rounded-lg">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="bg-red-500/20 text-red-400 px-2 py-1 rounded text-sm">High Priority</span>
+                            <h3 class="text-lg font-bold mt-2">Industrial Zone AQI Spike</h3>
+                            <p class="text-white/70 mt-1">Sudden increase in PM2.5 levels detected in the industrial sector.</p>
+                            <div class="flex items-center mt-2 space-x-4">
+                                <span class="text-white/50"><i class="fas fa-clock mr-1"></i> 15 mins ago</span>
+                                <span class="text-white/50"><i class="fas fa-map-marker-alt mr-1"></i> Sector 7</span>
+                            </div>
+                        </div>
+                        <button class="bg-red-500/20 hover:bg-red-500/30 px-4 py-2 rounded-lg transition-colors">
+                            Take Action
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Medium Priority Alert -->
+                <div class="bg-yellow-900/30 border border-yellow-500/30 p-4 rounded-lg">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <span class="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded text-sm">Medium Priority</span>
+                            <h3 class="text-lg font-bold mt-2">Traffic Congestion Impact</h3>
+                            <p class="text-white/70 mt-1">Elevated pollution levels due to peak hour traffic.</p>
+                            <div class="flex items-center mt-2 space-x-4">
+                                <span class="text-white/50"><i class="fas fa-clock mr-1"></i> 30 mins ago</span>
+                                <span class="text-white/50"><i class="fas fa-map-marker-alt mr-1"></i> City Center</span>
+                            </div>
+                        </div>
+                        <button class="bg-yellow-500/20 hover:bg-yellow-500/30 px-4 py-2 rounded-lg transition-colors">
+                            Monitor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alert Statistics -->
+        <section class="command-station p-6 my-4">
+            <h2 class="text-xl font-bold mb-4"><i class="fas fa-chart-pie mr-2"></i>Alert Statistics</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-gradient-to-br from-red-900/30 to-purple-900/30 p-4 rounded-lg text-center">
+                    <i class="fas fa-bell text-3xl text-red-400 mb-2"></i>
+                    <h3 class="font-bold">Active Alerts</h3>
+                    <p class="text-2xl font-bold">2</p>
+                </div>
+                <div class="bg-gradient-to-br from-green-900/30 to-purple-900/30 p-4 rounded-lg text-center">
+                    <i class="fas fa-check-circle text-3xl text-green-400 mb-2"></i>
+                    <h3 class="font-bold">Resolved Today</h3>
+                    <p class="text-2xl font-bold">5</p>
+                </div>
+                <div class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 p-4 rounded-lg text-center">
+                    <i class="fas fa-clock text-3xl text-blue-400 mb-2"></i>
+                    <h3 class="font-bold">Avg Response Time</h3>
+                    <p class="text-2xl font-bold">12m</p>
+                </div>
+                <div class="bg-gradient-to-br from-purple-900/30 to-blue-900/30 p-4 rounded-lg text-center">
+                    <i class="fas fa-calendar-check text-3xl text-purple-400 mb-2"></i>
+                    <h3 class="font-bold">Monthly Total</h3>
+                    <p class="text-2xl font-bold">28</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alert History -->
+        <section class="command-station p-6 my-4">
+            <h2 class="text-xl font-bold mb-4"><i class="fas fa-history mr-2"></i>Recent Alert History</h2>
+            <div class="space-y-4">
+                <div class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <div>
+                                <h3 class="font-bold">Construction Site Dust Alert</h3>
+                                <p class="text-white/70">Resolved within 45 minutes</p>
+                            </div>
+                        </div>
+                        <span class="text-white/50">2 hours ago</span>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <div>
+                                <h3 class="font-bold">Vehicle Emission Spike</h3>
+                                <p class="text-white/70">Traffic management implemented</p>
+                            </div>
+                        </div>
+                        <span class="text-white/50">4 hours ago</span>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                            <div>
+                                <h3 class="font-bold">Industrial Emissions Alert</h3>
+                                <p class="text-white/70">Factory compliance check completed</p>
+                            </div>
+                        </div>
+                        <span class="text-white/50">6 hours ago</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Response Protocol -->
+        <section class="command-station p-6 my-4">
+            <h2 class="text-xl font-bold mb-4"><i class="fas fa-shield-alt mr-2"></i>Response Protocol</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 p-6 rounded-lg">
+                    <h3 class="font-bold mb-4">Emergency Contacts</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-phone-alt text-green-400"></i>
+                            <div>
+                                <p class="font-bold">Environmental Control</p>
+                                <p class="text-white/70">+1 (555) 0123-4567</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <i class="fas fa-ambulance text-red-400"></i>
+                            <div>
+                                <p class="font-bold">Emergency Response</p>
+                                <p class="text-white/70">+1 (555) 7890-1234</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 p-6 rounded-lg">
+                    <h3 class="font-bold mb-4">Quick Actions</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button class="bg-red-500/20 hover:bg-red-500/30 p-4 rounded-lg transition-colors">
+                            <i class="fas fa-broadcast-tower mb-2"></i>
+                            <p>Broadcast Alert</p>
+                        </button>
+                        <button class="bg-blue-500/20 hover:bg-blue-500/30 p-4 rounded-lg transition-colors">
+                            <i class="fas fa-users mb-2"></i>
+                            <p>Notify Team</p>
+                        </button>
+                        <button class="bg-green-500/20 hover:bg-green-500/30 p-4 rounded-lg transition-colors">
+                            <i class="fas fa-file-medical mb-2"></i>
+                            <p>Health Advisory</p>
+                        </button>
+                        <button class="bg-purple-500/20 hover:bg-purple-500/30 p-4 rounded-lg transition-colors">
+                            <i class="fas fa-cog mb-2"></i>
+                            <p>System Check</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#1a1f35]/80 backdrop-blur-md border-t border-white/10 mt-8">
+        <div class="container mx-auto p-4 text-center text-white/70">
+            <p>© 2023 Smart AQI Guardian. Next-Gen Air Quality Command Center</p>
+        </div>
+    </footer>
+
+    <script>
+        // Update timestamp
+        setInterval(() => {
+            const now = new Date();
+            document.querySelector('.status-active').textContent = 
+                `Alert System: Active | ${now.toLocaleTimeString()}`;
+        }, 1000);
+    </script>
+</body>
+</html>
